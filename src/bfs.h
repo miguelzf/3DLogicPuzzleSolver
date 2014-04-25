@@ -1,11 +1,11 @@
 
 // ============================================================================
 // 
-//	Best-first search
+//  Best-first search
 // 
 // ============================================================================
 
 
-int bfsfind	(void);
+int bfsfind (void);
 
-int bfsreject	(void);
+int bfsreject   (void);

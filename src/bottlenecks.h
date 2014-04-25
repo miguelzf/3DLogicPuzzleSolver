@@ -1,17 +1,17 @@
 
 // ============================================================================
 // 
-//	Detection of Bottlenecks
+//  Detection of Bottlenecks
 // 
 // ============================================================================
 
-		
-int	bndetects,
-	invalidbfs,
-	bn_not_used,
-	detects1,
-	bnhits	,
-	detects2;
+        
+int bndetects,
+    invalidbfs,
+    bn_not_used,
+    detects1,
+    bnhits  ,
+    detects2;
 
 unsigned ncall;
 
