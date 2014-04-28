@@ -1,0 +1,15 @@
+
+Solution:
+X  X  -  -  -  X  
+X  -  B  b  b  b  
+-  -  r  r  R  -  
+-  -  r  -  c  c  
+-  G  r  C  c  X  
+X  g  r  -  X  X  
+================
+X  g  r  -  X  X  ||  X  X  c  -  b  X  
+g  g  r  -  -  X  ||  X  -  c  C  b  -  
+g  R  r  Y  y  y  ||  y  y  y  y  b  -  
+g  g  g  g  g  g  ||  g  G  -  Y  b  -  
+X  -  -  -  B  b  ||  b  b  b  b  b  X  
+X  X  -  -  -  -  ||  X  -  -  -  X  X  

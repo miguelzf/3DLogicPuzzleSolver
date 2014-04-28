@@ -1,0 +1,13 @@
+
+Solution:
+g  g  g  X  P  
+g  Y  g  X  X  
+g  y  g  g  g  
+g  y  y  y  g  
+g  X  X  y  X  
+=============
+g  y  y  y  X  ||  X  g  X  X  p  
+g  y  r  r  r  ||  r  g  g  g  p  
+g  y  R  P  X  ||  r  -  R  g  p  
+g  Y  G  p  X  ||  r  r  r  G  p  
+g  g  g  p  p  ||  p  p  p  p  p  

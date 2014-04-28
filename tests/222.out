@@ -1,0 +1,15 @@
+
+Solution:
+p  p  p  p  p  p  
+p  c  c  c  c  c  
+p  c  l  l  l  R  
+p  c  l  B  l  -  
+p  c  l  b  l  -  
+p  c  l  b  l  L  
+================
+p  c  L  b  -  r  ||  r  r  r  r  c  p  
+P  c  b  b  G  r  ||  y  y  y  Y  c  p  
+-  c  b  g  g  r  ||  y  C  c  c  c  p  
+-  C  b  g  Y  R  ||  y  p  p  p  p  p  
+-  -  B  g  y  y  ||  y  P  -  G  -  -  
+-  -  -  g  g  g  ||  g  g  g  g  -  -  

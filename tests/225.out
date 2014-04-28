@@ -1,0 +1,15 @@
+
+Solution:
+-  X  B  X  -  X  
+b  b  b  -  -  -  
+b  -  X  -  X  C  
+b  -  P  p  p  p  
+b  X  R  X  -  X  
+b  r  r  l  l  L  
+================
+b  r  X  l  X  p  ||  p  p  p  c  c  -  
+b  r  r  l  l  P  ||  -  X  -  X  c  X  
+b  X  r  X  l  X  ||  C  c  c  c  c  -  
+b  -  r  R  l  l  ||  l  L  X  B  X  -  
+b  -  X  -  X  -  ||  b  b  b  b  -  -  
+b  b  b  b  b  b  ||  b  X  -  X  -  X  

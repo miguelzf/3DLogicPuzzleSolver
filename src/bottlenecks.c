@@ -1,9 +1,9 @@
 
-// ============================================================================
+//------------------------------------------------------------------------------
 // 
 //  Detection of Bottlenecks
 // 
-// ============================================================================
+//------------------------------------------------------------------------------
 
 #include "defs.h"
 
@@ -57,8 +57,6 @@ point* pathtab;
 bool** tnmap;
 
 FILE *nullp;
-//int addsh[2][2];
-//int addsv[2][2];
 
 typedef struct _incr
 {   int y;
@@ -113,8 +111,8 @@ void clearbottlenecks(void)
     for (pathtab = trcc->bnpath+1; pathtab->x;
         tnmap[pathtab->y][pathtab->x] = 0, pathtab++);
 
-/*  absolutely necessary to set at 0 the values of .v, the flags of bottleneck points
-    which will be set ahead */
+//  absolutely necessary to set at 0 the values of .v, the flags of bottleneck points
+//  which will be set ahead 
     memset(trcc->bnpath, 0, 16* sizeof(point));
     
     for (pathtab = trcc->bnpath+16;
@@ -395,34 +393,3 @@ void initbottlenecks()
 }
 
 
-
-/*  
-    code to be included in the various functions 
-    
-    end of choosecolor:
-        trcc = colortinc;
-        bnclears++;
-        clearbottlenecks();
-        
-
-    remap function:
-
-        if ( trcc->lastbnset && trcc->bnmap[y][x] ) 
-        {   // bottleneck point
-            dprintf(outp,"bottleneck hit %d: %d %d\n", jj, y, x);
-            if (DEBUG) printbnmap(jj);
-            bnhits++;
-            return 0;
-        }
-
-            
-    propagation:
-
-            if ( trcc->lastbnset == ncall)              \
-            {   fprintf(outp, "invalidate %d\n", jj);   \
-                invalidbfs++;           \
-                trcc->lastbnset = 0;                    \
-            }                                           \
-
-
-*/

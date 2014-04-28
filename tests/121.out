@@ -1,0 +1,13 @@
+
+Solution:
+-  -  P  p  p  
+Y  y  y  y  y  
+G  g  g  g  g  
+B  b  b  b  b  
+L  l  l  l  L  
+=============
+r  r  r  r  r  ||  R  b  g  y  p  
+r  b  b  b  b  ||  b  b  G  y  p  
+r  b  P  p  p  ||  p  p  p  y  p  
+r  b  b  b  b  ||  b  b  p  Y  p  
+r  r  r  r  r  ||  R  B  p  p  p  

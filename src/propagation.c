@@ -1,8 +1,8 @@
-// ============================================================================
+//------------------------------------------------------------------------------
 // 
 //  Constraint propagation
 // 
-// ============================================================================s
+//------------------------------------------------------------------------------s
 
 #include "defs.h"
 #include "propagation.h"
@@ -23,14 +23,6 @@ extern void choosecolor(void);
     end ## direction:                               \
     dprintf(outp, "return %s at (%d, %d) - %d\n",   \
         #direction, yy, xx, 0);                     \
-                                                    \
-    if (trcc->lastbnset == ncall)                   \
-    {   int jj = trcc->ascii - '0';                 \
-        fprintf(outp, "invalidate %d\n", jj);       \
-        invalidbfs++;                               \
-        trcc->lastbnset = 0;                        \
-        detectbottlenecks();                        \
-    }                                               \
                                                     \
     cube[yy][xx] = 0;                               \
     for (trcc = colortinc; trcc != colorend; trcc++)\
@@ -94,8 +86,7 @@ void reconnect(int y, int x, point *res1, point *res2, point *res3)
             for(aux = &trmap[res2->y][res2->x], rec = res2;
                 aux->v == MAPDEST; aux = &trmap[aux->y][aux->x])
                     if (aux == res1)
-                    {
-                        rec = res1;
+                    {   rec = res1;
                         break;
                     }
     }
@@ -157,8 +148,18 @@ void reconnect(int y, int x, point *res1, point *res2, point *res3)
                                                     \
     /* mark this posit as used in all the colors' maps */   \
     for (trcc = colortinc; trcc != colorend; trcc++)\
-    /* can never have a path, coz that's been already tested */ \
+    {   /* can never have a path, coz that's been already tested */ \
         trcc->map[yy][xx].v = MAPWALL;              \
+                                                    \
+        if (BOTTLENECKS)                            \
+            if (trcc->lastbnset == ncall)           \
+            {   fprintf(outp, "invalidate %d\n",    \
+                            trcc->ascii - '0');     \
+                invalidbfs++;                       \
+                trcc->lastbnset = 0;                \
+                detectbottlenecks();                \
+            }                                       \
+    }                                               \
                                                     \
     if ( area[yy][xx] )                             \
     {   /* found end point */                       \

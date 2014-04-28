@@ -1,9 +1,9 @@
 
-// ============================================================================
+//------------------------------------------------------------------------------
 // 
 //  Finding a path around an obstacle
 // 
-// ============================================================================
+//------------------------------------------------------------------------------
 
 /*
     This module implements the simple operation of finding the path around a new obstacle point,
@@ -107,8 +107,7 @@ static int markpath (int ey, int ex, int yy, int xx)
     return 1;
 }
 
-//  fprintf(outp, "find %s at (%d, %d)\n", st, ey,ex);
-//  fprintf(outp, "fail at find %s (%d, %d)\n", st, yy,xx);
+
 
 #define FINDBRANCH(st)                              \
     dprintf(outp, "find %s at (%d, %d)\n",          \
@@ -149,6 +148,7 @@ static int markpath (int ey, int ex, int yy, int xx)
     {   ignoredrounds++;    \
         return 0;                       \
     }
+
 
 int findup (int yy, int xx)
 {

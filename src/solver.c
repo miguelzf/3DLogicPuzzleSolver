@@ -1,9 +1,9 @@
 
-// ============================================================================
+//------------------------------------------------------------------------------
 // 
 //  Solver for the 3DLogic puzzle
 // 
-// ============================================================================
+//------------------------------------------------------------------------------
 
 /*
     It was used an incrementing path-finding strategy:
@@ -57,28 +57,41 @@ unsigned int
     ignoredrounds=0;
 
 
+// Not needed now, replaced 
+#define dist_source(yq,xq,res)              \
+{                                           \
+    if ( trcc->x2 > BS && yq > BS )         \
+        res = 2*BS+1 - trcc->y2 - xq + abs (yq - trcc->x2); \
+    else if ( trcc->y2 > BS && xq > BS )    \
+        res = 2*BS+1 - trcc->x2 - yq + abs (xq - trcc->y2); \
+    else                                    \
+        res = abs (yq - trcc->y2) + abs (trcc->x2 - xq);    \
+}
 
 
 void finalize(void)
 {
-    long int tt = (clock() - t1) * (1000.0 / CLOCKS_PER_SEC);
-    
-    fprintf(stderr, "test blocks:\t%d\nblocks found:\t%d\nblocks adjs:\t%d\n", 
-            testblocks - blocksgood, blocksfound, blocksgood);
-    fprintf(stderr, "test reject:\t%d\nrejects done:\t%d\n", testrejects, rejectsdone);
-    fprintf(stderr, "calls remaps:\t%d\ncalls bfs:\t%d\nbfs fails:\t%d\n",
-            remapcalls - blocksgood, bfscalls, bfsfails); 
-    fprintf(stderr, "reset stamps:\t%d\nreset dists:\t%d\n", resetstamps, resetdists);
-    fprintf(stderr, "calls to go around: %d, found: %d, ignored: %d\n",
-        aroundcalls, aroundfound, ignoredrounds );
-    
-    fprintf(stderr, "total chamadas:\t%d\n", calls);
-    fprintf(stderr, "total tempo: %ldm%2ld.%03lds\n",tt/60000,tt/1000,tt%1000);
+    if (!CUTOUTPUT)
+    {
+        long int tt = (clock() - t1) * (1000.0 / CLOCKS_PER_SEC);
         
-/*  bottlenecks info: 
-    printf ("bnhits: %d, bndetects %d, bn's not used %d\n", bnhits, bndetects, bn_not_used);
-    printf("det1: %d, det2: %d. invalids: %d\n", detects1, detects2, invalidbfs);
-*/
+        fprintf(stderr, "test blocks:\t%d\nblocks found:\t%d\nblocks adjs:\t%d\n", 
+                testblocks - blocksgood, blocksfound, blocksgood);
+        fprintf(stderr, "test reject:\t%d\nrejects done:\t%d\n", testrejects, rejectsdone);
+        fprintf(stderr, "calls remaps:\t%d\ncalls bfs:\t%d\nbfs fails:\t%d\n",
+                remapcalls - blocksgood, bfscalls, bfsfails); 
+        fprintf(stderr, "reset stamps:\t%d\nreset dists:\t%d\n", resetstamps, resetdists);
+        fprintf(stderr, "calls to go around: %d, found: %d, ignored: %d\n",
+                aroundcalls, aroundfound, ignoredrounds );
+        
+        fprintf(stderr, "total chamadas:\t%d\n", calls);
+        fprintf(stderr, "total tempo: %ldm%2ld.%03lds\n",tt/60000,tt/1000,tt%1000);
+    
+#if BOTTLENECKS
+        printf ("bnhits: %d, bndetects %d, bn's not used %d\n", bnhits, bndetects, bn_not_used);
+        printf("det1: %d, det2: %d. invalids: %d\n", detects1, detects2, invalidbfs);
+#endif
+    }
     exit(0);
 }
 
@@ -127,12 +140,13 @@ int remap (int y, int x)
             return 0;
         
     if (DEBUG) printboard();
-    dprintf(outp,"\nREMAP color %d, at (%d, %d)\n", trcc - colors, y, x);
+    dprintf(outp,"\nREMAP color %ld, at (%d, %d)\n", trcc - colors, y, x);
         
     tt->v = MAPWALL;
     
-    // TODO remove this?
-    if ( findaround (tt->y, tt->x, y, x ))  goto remapdone;
+    if (GOAROUND)
+        if ( findaround (tt->y, tt->x, y, x ))
+            goto remapdone;
         
     /* traverses the path backwards from the cut to the start, and clears it */
     for (tt = &trmap[tt->y][tt->x]; tt->d != DISTMAX;
@@ -149,6 +163,7 @@ int remap (int y, int x)
     }
 
     // bottlenecks
+#if BOTTLENECKS
     if ( trcc->lastbnset && trcc->bnmap[y][x] ) 
     {   // bottleneck point
         int jj = trcc->ascii - '0';
@@ -157,6 +172,7 @@ int remap (int y, int x)
         bnhits++;
         return 0;
     }
+#endif
 
 remapdone:
     testpocket(trcc-colors);
@@ -259,7 +275,7 @@ void preparecolors (void)
 
         sp1->v = 0; sp1->y = y; sp1->x = x; 
         
-        dprintf(outp, "\nCall to color %d:\n", trcc - colors);
+        dprintf(outp, "\nCall to color %ld:\n", trcc - colors);
         
         trmap[0][0].d = DISTMAX;
         bfsfind();
@@ -306,9 +322,10 @@ void choosecolor (void)
     cmpcolor= colort->ascii;
     area    = colors[currcolor].area;
     
-    // Bottlenecks
+#if BOTTLENECKS
     trcc = colortinc;
     clearbottlenecks();
+#endif
 }
 
 
@@ -321,7 +338,9 @@ int main (int argc, char** argv)
     outp  = stdout; // fopen("res.txt", "w");       /* out file */
     
     if (argc != 2)
-        printf("Wrong number of arguments\n");
+    {   fprintf(stderr, "Wrong number of arguments\n");
+        return -1;
+    }
 
     colors  = (color*) calloc (STDMAX, sizeof(color)); 
 
@@ -333,15 +352,21 @@ int main (int argc, char** argv)
     colort = colors;
     colortinc = colors+1;
 
+#if BOTTLENECKS
     initbottlenecks();
+#endif
     
-    printboard();
-//  printareas();
-//  printmaps();
-    
+    if (!CUTOUTPUT)
+    {
+        printboard();
+        printareas();
+        printmaps();
+    }
+
     preparecolors();
 
-    printcolors();
+    if (!CUTOUTPUT)
+        printcolors();
     
     dprintf(outp, "\nBEGIN\n\n");
 
@@ -351,20 +376,3 @@ int main (int argc, char** argv)
     return 0;
 }
 
-
-/*  
-    // Not needed now, replaced 
-
-    #define dist_source(yq,xq,res)              \
-    {                                           \
-        if ( trcc->x2 > BS && yq > BS )         \
-            res = 2*BS+1 - trcc->y2 - xq + abs (yq - trcc->x2); \
-    \
-        else if ( trcc->y2 > BS && xq > BS )    \
-            res = 2*BS+1 - trcc->x2 - yq + abs (xq - trcc->y2); \
-    \
-        else                                    \
-            res = abs (yq - trcc->y2) + abs (trcc->x2 - xq);    \
-    }
-
-*/

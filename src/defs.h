@@ -1,8 +1,8 @@
-// ============================================================================
+//------------------------------------------------------------------------------
 // 
 //  Global solver definitions
 // 
-// ============================================================================
+//------------------------------------------------------------------------------
 
 
 #include <stdio.h>
@@ -33,23 +33,7 @@
 
 #define BOTTLENECKS     1
 
-typedef unsigned char uchar;
-typedef unsigned int  uint;
-
-typedef unsigned short int hi_unit;
-
-typedef uchar unit;
-typedef uchar bool;
-
-
-#define GOAROUND    1
-
-#define CUTOUTPUT   0
-
-#define DEBUG       0
-
-#define dprintf     if(DEBUG) fprintf
-
+#define GOAROUND    0
 
 /* flag for the reconnecting proceedure when backtracking.
 use this to avoid useless paths when a new closer adj arrives:
@@ -64,10 +48,25 @@ use this to avoid useless paths when a new closer adj arrives:
 #define WALLSWAP_OPT    0       // optimization of changing the order of colors 
                                 // in its very array, to put first the ones in walls 
 
+                                // the validity/emptiness of positions, is tested by: " < MAPWALL "
+                                // to include the cases of EMPTY (0) and mapcmpcol (1, unified), 
+                                // for which the function must also be called upon */
 
-/* the validity/emptiness of positions, is tested by: " < MAPWALL "
-to include the cases of EMPTY (0) and mapcmpcol (1, unified), 
-for which the function must also be called upon */
+#define CUTOUTPUT   1
+
+#define DEBUG       0
+
+
+
+typedef unsigned char uchar;
+typedef unsigned int  uint;
+
+typedef unsigned short int hi_unit;
+
+typedef uchar unit;
+typedef uchar bool;
+
+#define dprintf     if(DEBUG) fprintf
 
 
 /*
@@ -177,11 +176,9 @@ typedef struct _color
     /* pointers to the flags of adjs of endpoint: */
     hi_unit *adjd[4];
     
-#if BOTTLENECKS
     unsigned int lastbnset;
     bool **bnmap;           /* bottlenecks map */
     point* bnpath;
-#endif  
 } color;
 
 

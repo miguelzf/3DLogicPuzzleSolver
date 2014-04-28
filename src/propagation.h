@@ -1,8 +1,8 @@
-// ============================================================================
+//------------------------------------------------------------------------------
 // 
 //  Constraint propagation
 // 
-// ============================================================================
+//------------------------------------------------------------------------------
 
 void chooser(int yy, int xx);
 
@@ -41,24 +41,3 @@ void choosed(int yy, int xx);
 
 
 
-#if 0
-/* old implementations. practically the same, changed 
-the Ifs order just for a slight efficiency gain */
-
-#define GORIGHT(yt,xt,yy,xx)            \
-    if ( xx == BS && yy > BS)           \
-    {   if (cube[xx][yy] == EMPTY)      \
-            choosed (xx, yy);           \
-    }                                   \
-    else if (cube[yy][xx+1] == EMPTY)   \
-        chooser (yy, xx+1);             
-
-#define GOUP(yt,xt,yy,xx)               \
-    if ( yy == BS && xx > BS)           \
-    {   if (cube[xx][yy] == EMPTY)      \
-            choosel (xx, yy);           \
-    }                                   \
-    else if (cube[yy+1][xx] == EMPTY)   \
-        chooseu (yy+1, xx);             
-
-#endif

@@ -1,9 +1,9 @@
 
-// ============================================================================
+//------------------------------------------------------------------------------
 // 
 //  Input/Output
 // 
-// ============================================================================
+//------------------------------------------------------------------------------
 
 /* mapping of the cube:
        2nd x -->
@@ -100,14 +100,7 @@ void readboard (FILE* cubecfg)
 {
     int i, j, k, ic, init, id, cont;
     char buffer[STDMAX*5];
-/*
-    do { 
-        printf("nome do ficheiro com a configuracao do cubo:\n");
-        gets(buffer);
-        strcat(buffer, ".txt");
-    }
-    while ( NULL == ( cubecfg = fopen(buffer, "r")));
-*/
+
     if ( !fgets (buffer, STDMAX*5 -1, cubecfg))
     {   printf("empty file");
         exit(1);
@@ -215,7 +208,7 @@ void printboard (void)
     
     if (CUTOUTPUT) return;
 
-    fprintf(outp, "Configuracao do cubo:\n");
+    fprintf(outp, "Cube configuration:\n");
 
 /*  for (i = BS*2 +1; i >= 0; i--, fprintf(outp, "\n"))
         for (j = 0; j <= 2*BS+1; j++)
@@ -249,7 +242,7 @@ void printpath(int k);
 void printareas (void)
 {
     int i,j,k;
-    fprintf(outp, "Areas circundantes do cubo:\n");
+    fprintf(outp, "Cube's encircling areas:\n");
     if (CUTOUTPUT) return;
 
     for ( k = 1; k <= ncolors; k++ )
@@ -283,7 +276,7 @@ void printresult(void)
 {
     int i,j;
     outp = stdout;
-    fprintf(outp, "\nSOLUCAO ENCONTRADA, em %d chamadas:\n\n", calls);
+    fprintf(outp, "\nSolution:\n");
 
     mapper[0] = '-';
 
@@ -440,8 +433,7 @@ int testpocket(int nc)
             &&  rmap[i][j-1].v  == MAPDEST
             &&  rmap[i-1][j-1].v== MAPDEST)
             {
-                fprintf(stderr, "POCKET FOUND %d!!!!!!!!\n", calls);
-//              printf("POCKET FOUND %d!!\n", calls);
+                fprintf(stderr, "POCKET FOUND at call %d!\n", calls);
 //              printmap(nc);
 //              printpath(nc);
             }
