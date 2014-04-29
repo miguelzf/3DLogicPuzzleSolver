@@ -35,14 +35,18 @@ benchmark:
 	time sh -c './$(EXEC) ../tests/129.in > /dev/null; \
 				./$(EXEC) ../tests/228-fully-walled.in > /dev/null'
 
-test:	setvars 3dlogic
+test: 3dlogic runtests
+
+testhard: 3dlogic runhards
+
+runtests: setvars
 	@list='$(TESTS)'; for p in $$list; do \
 		echo "Test $$p" ; \
 		./$(EXEC) ../tests/$$p.in > difftest ; \
 		diff ../tests/$$p.out difftest ; \
 	done
 
-testhard:	setvars 3dlogic
+runhards: setvars
 	@list='$(HARDS)'; for p in $$list; do \
 		echo "Test $$p" ; \
 		./$(EXEC) ../tests/$$p.in > difftest ; \
